@@ -2,13 +2,23 @@ import 'package:news_c17_online/models/sources_reponse.dart';
 
 class NewsResponse {
   String? status;
+  String? code;
+  String? message;
   int? totalResults;
   List<Articles>? articles;
 
-  NewsResponse({this.status, this.totalResults, this.articles});
+  NewsResponse({
+    this.status,
+    this.code,
+    this.message,
+    this.totalResults,
+    this.articles,
+  });
 
   NewsResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
+    code = json['code'];
+    message = json['message'];
     totalResults = json['totalResults'];
     if (json['articles'] != null) {
       articles = <Articles>[];
@@ -18,15 +28,6 @@ class NewsResponse {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['totalResults'] = this.totalResults;
-    if (this.articles != null) {
-      data['articles'] = this.articles!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
 
 class Articles {
@@ -39,19 +40,21 @@ class Articles {
   String? publishedAt;
   String? content;
 
-  Articles(
-      {this.source,
-        this.author,
-        this.title,
-        this.description,
-        this.url,
-        this.urlToImage,
-        this.publishedAt,
-        this.content});
+  Articles({
+    this.source,
+    this.author,
+    this.title,
+    this.description,
+    this.url,
+    this.urlToImage,
+    this.publishedAt,
+    this.content,
+  });
 
   Articles.fromJson(Map<String, dynamic> json) {
-    source =
-    json['source'] != null ? new Sources.fromJson(json['source']) : null;
+    source = json['source'] != null
+        ? new Sources.fromJson(json['source'])
+        : null;
     author = json['author'];
     title = json['title'];
     description = json['description'];
@@ -76,4 +79,3 @@ class Articles {
     return data;
   }
 }
-

@@ -1,28 +1,33 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:news_c17_online/core/api_manager.dart';
 import 'package:news_c17_online/models/news_response.dart';
+import 'package:news_c17_online/screens/bloc/cubit.dart';
+import 'package:news_c17_online/screens/bloc/states.dart';
 
 class NewsScreen extends StatelessWidget {
-  String sourceId;
-
-  NewsScreen({required this.sourceId});
+  const NewsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: ApiManager.getNewsData(sourceId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
+    return BlocConsumer<HomeCubit, HomeStates>(
+      listener: (context, state) {
+        if (state is GetNewsDataLoadingState) {
+          context.loaderOverlay.show();
+        } else {
+          context.loaderOverlay.hide();
+        }
+      },
+      builder: (context, state) {
+        var bloc = BlocProvider.of<HomeCubit>(context);
+
+        if (state is GetNewsDataErrorState) {
           return Center(child: Text("Something went wrong"));
         }
-        List<Articles> articles = snapshot.data?.articles ?? [];
 
-        if (articles.isEmpty) {
-          return Center(child: Text("No news found"));
-        }
         return ListView.separated(
           separatorBuilder: (context, index) => SizedBox(height: 12),
           itemBuilder: (context, index) {
@@ -39,15 +44,18 @@ class NewsScreen extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadiusGeometry.circular(18),
-                    child: Image.network(
-                      articles[index].urlToImage ?? "",
+                    child: CachedNetworkImage(
+                      imageUrl: bloc.articles[index].urlToImage ?? "",
                       height: 220,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
                     ),
                   ),
                   Text(
-                    articles[index].title ?? "",
+                    bloc.articles[index].title ?? "",
                     maxLines: 1,
                     style: GoogleFonts.poppins(
                       fontSize: 18,
@@ -55,7 +63,7 @@ class NewsScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    articles[index].description ?? "",
+                    bloc.articles[index].description ?? "",
                     maxLines: 2,
                     style: GoogleFonts.poppins(
                       fontSize: 14,
@@ -68,24 +76,32 @@ class NewsScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        articles[index].author ?? "",
-                        maxLines: 2,
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          bloc.articles[index].author ?? "",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
 
-                          color: Colors.black,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                      Text(
-                        articles[index].publishedAt?.substring(0, 10) ?? "",
-                        maxLines: 2,
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                      Expanded(
+                        child: Text(
+                          bloc.articles[index].publishedAt?.substring(0, 10) ??
+                              "",
+                          maxLines: 1,
+                          textAlign: TextAlign.end,
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
 
-                          color: Colors.black,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ],
@@ -94,7 +110,7 @@ class NewsScreen extends StatelessWidget {
               ),
             );
           },
-          itemCount: articles.length,
+          itemCount: bloc.articles.length,
         );
       },
     );

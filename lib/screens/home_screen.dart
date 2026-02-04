@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:news_c17_online/core/api_manager.dart';
+import 'package:news_c17_online/models/categories_model.dart';
 import 'package:news_c17_online/models/sources_reponse.dart';
+import 'package:news_c17_online/screens/bloc/cubit.dart';
+import 'package:news_c17_online/screens/bloc/states.dart';
 import 'package:news_c17_online/screens/news_screen.dart';
+import 'package:news_c17_online/screens/views/categories_view.dart';
+import 'package:news_c17_online/screens/views/drawer_view.dart';
+import 'package:news_c17_online/screens/views/sources_view.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/";
@@ -13,51 +21,35 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.blue.shade50,
-        title: Text("News"),
-      ),
+    return LoaderOverlay(
+      child: Scaffold(
+        drawer: DrawerView(onClick: onDrawerClicked),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            selectedCategory == null ? "Home" : selectedCategory!.label,
+          ),
+        ),
 
-      body: FutureBuilder(
-        future: ApiManager.getSources(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Something went wrong"));
-          }
-
-          List<Sources> sources = snapshot.data?.sources ?? [];
-          return Column(
-            children: [
-              DefaultTabController(
-                length: sources.length,
-                initialIndex: selectedIndex,
-                child: TabBar(
-                  isScrollable: true,
-
-                  onTap: (index) {
-                    selectedIndex = index;
-                    setState(() {});
-                  },
-                  tabAlignment: TabAlignment.start,
-                  dividerColor: Colors.transparent,
-                  tabs: sources
-                      .map((e) => Tab(child: Text(e.name ?? "")))
-                      .toList(),
-                ),
-              ),
-              Expanded(child: NewsScreen(sourceId: sources[selectedIndex].id ?? "")),
-            ],
-          );
-        },
+        body: selectedCategory == null
+            ? CategoriesView(onClick: onClick)
+            : SourcesView(categoryId: selectedCategory!.id),
       ),
     );
+  }
+
+  CategoryModel? selectedCategory;
+
+  void onDrawerClicked() {
+    selectedCategory = null;
+    Navigator.pop(context);
+    setState(() {});
+  }
+
+  void onClick(CategoryModel category) {
+    selectedCategory = category;
+    setState(() {});
   }
 }
