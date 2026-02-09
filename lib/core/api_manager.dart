@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:news_c17_online/core/my_interceprtor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'constants.dart';
@@ -16,13 +17,14 @@ class ApiManager {
         receiveTimeout: const Duration(seconds: 30),
         sendTimeout: const Duration(seconds: 30),
         headers: {
-          "x-api-key": AppConstants.APIKEY,
+          // "x-api-key": AppConstants.APIKEY,
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
       ),
     );
 
+    dio.interceptors.add(MyInterceptor());
     dio.interceptors.add(
       PrettyDioLogger(
         request: true,
