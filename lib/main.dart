@@ -5,8 +5,10 @@ import 'package:news_c17_online/core/observer.dart';
 import 'package:news_c17_online/screens/home_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
 
+  InternetConnectivity().initialize();
   runApp(const MyApp());
 }
 

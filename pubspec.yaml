@@ -18,8 +18,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   loader_overlay: ^5.0.0
   cached_network_image: ^3.4.1
-  connectivity_plus: ^5.0.0
-  internet_connection_checker: ^1.0.0+1
+  connectivity_plus: ^6.1.5
 
 dev_dependencies:
   flutter_test:

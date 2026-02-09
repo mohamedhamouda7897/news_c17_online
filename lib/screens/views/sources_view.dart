@@ -15,10 +15,13 @@ class SourcesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+      "InternetConnectivity() ${InternetConnectivity().isConnected}",
+    );
     return BlocProvider<HomeCubit>(
-      create: (context) =>
-          HomeCubit(InternetChecker.instance.isConnected ? HomeRepoRemote() : HomeRepoLocal())
-            ..getSources(categoryId),
+      create: (context) => HomeCubit(
+        InternetConnectivity().isConnected ? HomeRepoRemote() : HomeRepoLocal(),
+      )..getSources(categoryId),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {
           if (state is GetSourcesLoadingState) {
