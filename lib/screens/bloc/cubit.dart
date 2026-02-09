@@ -6,6 +6,13 @@ import 'package:news_c17_online/models/sources_reponse.dart';
 import 'package:news_c17_online/screens/bloc/states.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+//repository
+// DI
+// SOLID
+// Theming
+// interceptors
+// Differance between (Singleton & Factory & lazySingleton)
+
 class HomeCubit extends Cubit<HomeStates> {
   late Dio dio;
 
@@ -57,7 +64,9 @@ class HomeCubit extends Cubit<HomeStates> {
   Future<void> getSources(String categoryId) async {
     emit(GetSourcesLoadingState());
     try {
-      Response response = await dio.get("/v2/top-headlines/sources?category=$categoryId");
+      Response response = await dio.get(
+        "/v2/top-headlines/sources?category=$categoryId",
+      );
 
       SourcesResponse sourcesResponse = SourcesResponse.fromJson(response.data);
 

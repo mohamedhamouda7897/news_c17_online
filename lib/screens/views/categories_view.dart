@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:news_c17_online/models/categories_model.dart';
 
 class CategoriesView extends StatelessWidget {
-
   Function onClick;
 
   CategoriesView({super.key, required this.onClick});
@@ -14,18 +13,21 @@ class CategoriesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Text(
-            "Good Morning\nHere is Some News For You",
-            style: GoogleFonts.poppins(
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Good Morning\nHere is Some News For You",
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
 
-          Expanded(
-            child: ListView.separated(
+            ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               separatorBuilder: (context, index) => SizedBox(height: 12),
 
               itemBuilder: (context, index) {
@@ -83,7 +85,8 @@ class CategoriesView extends StatelessWidget {
                                   Visibility(
                                     visible: index.isEven,
                                     child: Image.asset(
-                                        "assets/images/arrow.png"),
+                                      "assets/images/arrow.png",
+                                    ),
                                   ),
                                 ],
                               ),
@@ -92,7 +95,9 @@ class CategoriesView extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              bottom: 40.0, right: 30),
+                            bottom: 40.0,
+                            right: 30,
+                          ),
                           child: Text(
                             categories[index].label,
                             style: GoogleFonts.poppins(
@@ -108,8 +113,8 @@ class CategoriesView extends StatelessWidget {
               },
               itemCount: categories.length,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
