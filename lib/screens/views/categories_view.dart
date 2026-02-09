@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_c17_online/core/theming/cubit/cubit.dart';
 import 'package:news_c17_online/models/categories_model.dart';
 
 class CategoriesView extends StatelessWidget {
@@ -11,7 +12,8 @@ class CategoriesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: ThemingCubit.get(context).colors.primary,
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
         child: Column(

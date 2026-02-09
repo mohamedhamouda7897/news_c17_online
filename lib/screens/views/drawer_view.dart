@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_c17_online/core/theming/cubit/cubit.dart';
+import 'package:news_c17_online/core/theming/light_colors.dart';
 
 class DrawerView extends StatelessWidget {
   Function onClick;
@@ -16,8 +18,16 @@ class DrawerView extends StatelessWidget {
           Container(
             height: 200,
             width: double.infinity,
-            color: Colors.white,
-            child: Center(child: Text("News App")),
+            color: ThemingCubit.get(context).colors.primary,
+            child: Center(
+              child: Text(
+                "News App",
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  color: ThemingCubit.get(context).colors.secondary,
+                ),
+              ),
+            ),
           ),
           SizedBox(height: 12),
           Expanded(
@@ -25,7 +35,7 @@ class DrawerView extends StatelessWidget {
               padding: EdgeInsets.only(top: 18, left: 12),
               height: double.infinity,
               width: double.infinity,
-              color: Colors.black,
+              color: ThemingCubit.get(context).colors.secondary,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -37,9 +47,31 @@ class DrawerView extends StatelessWidget {
                       "Go To Home",
                       style: GoogleFonts.poppins(
                         fontSize: 24,
-                        color: Colors.white,
+                        color: ThemingCubit.get(context).colors.primary,
                       ),
                     ),
+                  ),
+                  SizedBox(height: 12),
+                  Divider(color: Colors.grey, thickness: 1),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Light Theme",
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          color: ThemingCubit.get(context).colors.primary,
+                        ),
+                      ),
+                      Switch(
+                        value: ThemingCubit.get(context).colors is LightColors,
+                        onChanged: (value) {
+                          ThemingCubit.get(context).changeTheming();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
                   ),
                   SizedBox(height: 12),
                   Divider(color: Colors.grey, thickness: 1),

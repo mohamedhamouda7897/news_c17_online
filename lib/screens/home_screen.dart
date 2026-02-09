@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:news_c17_online/core/api_manager.dart';
+import 'package:news_c17_online/core/theming/cubit/cubit.dart';
 import 'package:news_c17_online/models/categories_model.dart';
 import 'package:news_c17_online/models/sources_reponse.dart';
 import 'package:news_c17_online/screens/bloc/cubit.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         drawer: DrawerView(onClick: onDrawerClicked),
         appBar: AppBar(
+          backgroundColor: ThemingCubit.get(context).colors.primary,
           centerTitle: true,
           title: Text(
             selectedCategory == null ? "Home" : selectedCategory!.label,

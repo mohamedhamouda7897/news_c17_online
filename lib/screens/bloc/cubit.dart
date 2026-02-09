@@ -12,8 +12,10 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 // SOLID
 // Differance between (Singleton & Factory & lazySingleton)
 // DI
-// Theming
 // interceptors
+
+// Theming
+
 
 @injectable
 class HomeCubit extends Cubit<HomeStates> {

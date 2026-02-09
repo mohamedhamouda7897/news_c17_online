@@ -14,6 +14,7 @@ import 'package:injectable/injectable.dart' as _i526;
 
 import 'core/api_manager.dart' as _i331;
 import 'core/internet_checker.dart' as _i94;
+import 'core/theming/cubit/cubit.dart' as _i124;
 import 'screens/bloc/cubit.dart' as _i712;
 import 'screens/repository/home_repo.dart' as _i890;
 import 'screens/repository/home_repo_remote.dart' as _i748;
@@ -25,6 +26,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i124.ThemingCubit>(() => _i124.ThemingCubit());
     gh.singleton<_i94.InternetConnectivity>(() => _i94.InternetConnectivity());
     gh.lazySingleton<_i331.ApiManager>(() => _i331.ApiManager());
     gh.factory<_i890.HomeRepo>(
