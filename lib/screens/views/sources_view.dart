@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:news_c17_online/core/internet_checker.dart';
 import 'package:news_c17_online/screens/bloc/cubit.dart';
 import 'package:news_c17_online/screens/bloc/states.dart';
 import 'package:news_c17_online/screens/news_screen.dart';
+import 'package:news_c17_online/screens/repository/home_repo_local.dart';
+import 'package:news_c17_online/screens/repository/home_repo_remote.dart';
 
 class SourcesView extends StatelessWidget {
   String categoryId;
@@ -13,7 +16,9 @@ class SourcesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeCubit>(
-      create: (context) => HomeCubit()..getSources(categoryId),
+      create: (context) =>
+          HomeCubit(InternetChecker.instance.isConnected ? HomeRepoRemote() : HomeRepoLocal())
+            ..getSources(categoryId),
       child: BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {
           if (state is GetSourcesLoadingState) {
