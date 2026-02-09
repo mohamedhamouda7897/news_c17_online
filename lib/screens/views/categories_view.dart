@@ -74,7 +74,7 @@ class CategoriesView extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "View All",
+                                    " View All ",
                                     style: GoogleFonts.poppins(
                                       fontSize: 24,
                                       fontWeight: FontWeight.w500,
