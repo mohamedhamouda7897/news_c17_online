@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:news_c17_online/core/constants.dart';
 import 'package:news_c17_online/models/news_response.dart';
 import 'package:news_c17_online/models/sources_reponse.dart';
@@ -8,12 +9,13 @@ import 'package:news_c17_online/screens/repository/home_repo.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 //repository
-// DI
 // SOLID
+// Differance between (Singleton & Factory & lazySingleton)
+// DI
 // Theming
 // interceptors
-// Differance between (Singleton & Factory & lazySingleton)
 
+@injectable
 class HomeCubit extends Cubit<HomeStates> {
   HomeRepo repo;
 
