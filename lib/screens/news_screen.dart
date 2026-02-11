@@ -31,82 +31,168 @@ class NewsScreen extends StatelessWidget {
         return ListView.separated(
           separatorBuilder: (context, index) => SizedBox(height: 12),
           itemBuilder: (context, index) {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: Colors.grey),
-              ),
-              padding: const EdgeInsets.all(12.0),
-              margin: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 4,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(18),
-                    child: CachedNetworkImage(
-                      imageUrl: bloc.articles[index].urlToImage ?? "",
-                      height: 220,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
-                    ),
-                  ),
-                  Text(
-                    bloc.articles[index].title ?? "",
-                    maxLines: 1,
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    bloc.articles[index].description ?? "",
-                    maxLines: 2,
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+            return InkWell(
+              onLongPress: (){
+                showModalBottomSheet(context: context, builder: (context) {
+                  return Container(
 
-                      color: Colors.grey,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: Colors.grey),
                     ),
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          bloc.articles[index].author ?? "",
+                    padding: const EdgeInsets.all(12.0),
+                    margin: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 4,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(18),
+                          child: CachedNetworkImage(
+                            imageUrl: bloc.articles[index].urlToImage ?? "",
+                            height: 220,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                          ),
+                        ),
+                        Text(
+                          bloc.articles[index].title ?? "",
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          bloc.articles[index].description ?? "",
+                          maxLines: 2,
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
 
-                            color: Colors.black,
+                            color: Colors.grey,
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          bloc.articles[index].publishedAt?.substring(0, 10) ??
-                              "",
-                          maxLines: 1,
-                          textAlign: TextAlign.end,
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
 
-                            color: Colors.black,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                bloc.articles[index].author ?? "",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                bloc.articles[index].publishedAt?.substring(0, 10) ??
+                                    "",
+                                maxLines: 1,
+                                textAlign: TextAlign.end,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Colors.grey),
+                ),
+                padding: const EdgeInsets.all(12.0),
+                margin: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 4,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadiusGeometry.circular(18),
+                      child: CachedNetworkImage(
+                        imageUrl: bloc.articles[index].urlToImage ?? "",
+                        height: 220,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                      ),
+                    ),
+                    Text(
+                      bloc.articles[index].title ?? "",
+                      maxLines: 1,
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      bloc.articles[index].description ?? "",
+                      maxLines: 2,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+
+                        color: Colors.grey,
+                      ),
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            bloc.articles[index].author ?? "",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Expanded(
+                          child: Text(
+                            bloc.articles[index].publishedAt?.substring(0, 10) ??
+                                "",
+                            maxLines: 1,
+                            textAlign: TextAlign.end,
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
           },

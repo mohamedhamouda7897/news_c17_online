@@ -6,8 +6,8 @@ import 'package:news_c17_online/di.dart';
 import 'package:news_c17_online/screens/bloc/cubit.dart';
 import 'package:news_c17_online/screens/bloc/states.dart';
 import 'package:news_c17_online/screens/news_screen.dart';
-import 'package:news_c17_online/screens/repository/home_repo_local.dart';
-import 'package:news_c17_online/screens/repository/home_repo_remote.dart';
+import 'package:news_c17_online/screens/repository/local/home_repo_local.dart';
+import 'package:news_c17_online/screens/repository/remote/home_repo_remote.dart';
 
 class SourcesView extends StatelessWidget {
   String categoryId;

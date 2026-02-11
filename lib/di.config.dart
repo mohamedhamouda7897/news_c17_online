@@ -16,8 +16,10 @@ import 'core/api_manager.dart' as _i331;
 import 'core/internet_checker.dart' as _i94;
 import 'core/theming/cubit/cubit.dart' as _i124;
 import 'screens/bloc/cubit.dart' as _i712;
-import 'screens/repository/home_repo.dart' as _i890;
-import 'screens/repository/home_repo_remote.dart' as _i748;
+import 'screens/repository/local/home_local_repo.dart' as _i630;
+import 'screens/repository/local/home_repo_local.dart' as _i966;
+import 'screens/repository/remote/home_repo.dart' as _i321;
+import 'screens/repository/remote/home_repo_remote.dart' as _i41;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -29,10 +31,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i124.ThemingCubit>(() => _i124.ThemingCubit());
     gh.singleton<_i94.InternetConnectivity>(() => _i94.InternetConnectivity());
     gh.lazySingleton<_i331.ApiManager>(() => _i331.ApiManager());
-    gh.factory<_i890.HomeRepo>(
-      () => _i748.HomeRepoRemote(gh<_i331.ApiManager>()),
+    gh.factory<_i630.HomeLocalRepo>(() => _i966.HomeRepoLocalImpl());
+    gh.factory<_i321.HomeRemoteRepo>(
+      () => _i41.HomeRepoRemoteImpl(gh<_i331.ApiManager>()),
     );
-    gh.factory<_i712.HomeCubit>(() => _i712.HomeCubit(gh<_i890.HomeRepo>()));
+    gh.factory<_i712.HomeCubit>(
+      () => _i712.HomeCubit(
+        gh<_i321.HomeRemoteRepo>(),
+        gh<_i630.HomeLocalRepo>(),
+      ),
+    );
     return this;
   }
 }

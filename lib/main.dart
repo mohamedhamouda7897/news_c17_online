@@ -1,18 +1,28 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:news_c17_online/core/internet_checker.dart';
 import 'package:news_c17_online/core/observer.dart';
 import 'package:news_c17_online/core/theming/cubit/cubit.dart';
 import 'package:news_c17_online/core/theming/cubit/states.dart';
+import 'package:news_c17_online/models/ArticlesAdapter.dart';
+import 'package:news_c17_online/models/NewsResponseAdapter.dart';
+import 'package:news_c17_online/models/SourcesAdapter.dart';
+import 'package:news_c17_online/models/SourcesResponseAdapter.dart';
 import 'package:news_c17_online/screens/home_screen.dart';
 
 import 'di.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
 
+  await Hive.initFlutter();
+  Hive.registerAdapter(SourcesAdapter());
+  Hive.registerAdapter(SourcesResponseAdapter());
+  Hive.registerAdapter(NewsResponseAdapter());
+  Hive.registerAdapter(ArticlesAdapter());
   configureDependencies();
   getIt<InternetConnectivity>().initialize();
   runApp(

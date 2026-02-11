@@ -1,17 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:news_c17_online/core/api_manager.dart';
+import 'package:news_c17_online/core/cache_helper.dart';
 import 'package:news_c17_online/core/constants.dart';
 import 'package:news_c17_online/models/news_response.dart';
 import 'package:news_c17_online/models/sources_reponse.dart';
-import 'package:news_c17_online/screens/repository/home_repo.dart';
+import 'package:news_c17_online/screens/repository/remote/home_repo.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-@Injectable(as: HomeRepo)
-class HomeRepoRemote extends HomeRepo {
+@Injectable(as: HomeRemoteRepo)
+class HomeRepoRemoteImpl extends HomeRemoteRepo {
   ApiManager apiManager;
 
-  HomeRepoRemote(this.apiManager);
+  HomeRepoRemoteImpl(this.apiManager);
 
   @override
   Future<NewsResponse> getNews(String sourceId) async {
@@ -23,6 +24,7 @@ class HomeRepoRemote extends HomeRepo {
 
       NewsResponse newsResponse = NewsResponse.fromJson(response.data);
 
+      await CacheHelper.saveNewsResponse(newsResponse, sourceId);
       return newsResponse;
     } catch (e) {
       throw Exception("Something went wrong");
@@ -39,6 +41,7 @@ class HomeRepoRemote extends HomeRepo {
 
       SourcesResponse sourcesResponse = SourcesResponse.fromJson(response.data);
 
+      await CacheHelper.saveSourceResponse(sourcesResponse,categoryId);
       return sourcesResponse;
     } catch (e) {
       throw Exception("Something went wrong");
